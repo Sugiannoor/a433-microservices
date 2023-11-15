@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  item-app:
+    # Menggunakan image item-app dari Docker Hub.
+    image: sugiannoor/item-app:v1
+    restart: always
+    ports:
+      # Melakukan port mapping agar dapat diakses dari port 80 di host.
+      - "80:8080"
+    depends_on:
+      # Pastikan item-app hanya berjalan setelah item-db diluncurkan.
+      - item-db
+
+  item-db:
+    # Menggunakan image mongo:3 dari Docker Hub.
+    image: mongo:3
+    restart: always
+    volumes:
+      # Memakai volume bernama app-db dengan target /data/db di container.
+      - app-db:/data/db
+
+volumes:
+  # Memiliki satu buah volume bernama app-db.
+  app-db:
